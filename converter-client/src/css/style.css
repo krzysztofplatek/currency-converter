@@ -1,0 +1,37 @@
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.input-group-text img {
+    width: 2.5em;
+    height: 1.8em;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.container {
+    scale: 120%;
+}
+
+.input-group-text {
+    border-radius: 3px;
+}
+
+.form-control:hover {
+    background-color: transparent;
+    border-color: rgba(0, 0, 0, 0.44);
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: rgba(0, 0, 0, 0.44);
+}
+
+.input-group-text {
+    background-color: transparent;
+}
+
+.form-control {
+    border-right: none;
+    border-left: none;
+}
