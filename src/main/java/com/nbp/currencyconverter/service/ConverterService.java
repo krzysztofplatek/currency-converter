@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -43,9 +42,9 @@ public class ConverterService {
 
     }
 
-    public ResponseEntity<BigDecimal> convertCurrency(@RequestBody UserValue userValue) {
+    public ResponseEntity<BigDecimal> convertCurrency(UserValue userValue) {
 
-        String inputValue = userValue.getValue();
+        String inputValue = userValue.getValue().trim();
         String rateName = userValue.getRateName();
 
         BigDecimal mid = getGBPMidValue();
@@ -68,7 +67,7 @@ public class ConverterService {
         }
 
         return ResponseEntity.ok(result);
-
+        
     }
 
 }

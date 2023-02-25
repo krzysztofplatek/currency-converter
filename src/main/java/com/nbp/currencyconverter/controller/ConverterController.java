@@ -24,7 +24,7 @@ public class ConverterController {
         return converterService.getExchangeRates();
     }
 
-    @PostMapping("/process-value")
+    @PostMapping("/convert-currency")
     public ResponseEntity<BigDecimal> convertCurrency(@RequestBody UserValue userValue) {
         return converterService.convertCurrency(userValue);
     }

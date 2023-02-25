@@ -1,64 +1,54 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import plFlag from './images/pl-flag.png';
+import ukFlag from './images/uk-flag.png';
+
+const PLN = 'PLN';
+const GBP = 'GBP';
 
 function ConverterComponent() {
 
     const [value1, setValue1] = useState('');
     const [value2, setValue2] = useState('');
 
-    let plFlag = require('./images/pl-flag.png');
-    let ukFlag = require('./images/uk-flag.png');
-
     const [mid, setMid] = useState(0);
-
-    const [value1ChangedByUser, setValue1ChangedByUser] = useState(false);
-    const [value2ChangedByUser, setValue2ChangedByUser] = useState(false);
 
     useEffect(() => {
         axios.get("http://localhost:8080/api/mid-value")
             .then(response => setMid(response.data))
-            .catch(error => console.error(error));
+            .catch(error => {
+                console.error(error);
+                alert('There was an error processing your request. Please try again later.');
+            });
     }, []);
 
-    useEffect(() => {
-        if (value1ChangedByUser) {
-            axios.post('http://localhost:8080/api/process-value', {value: value1, name: 'PLN'})
+    const handleValueChange = (value, name) => {
+        const inputValue = Number(value);
+        const inputElement = document.getElementsByName(name)[0];
+        if (isNaN(inputValue) || inputValue < 0) {
+            inputElement.classList.add('error');
+            return;
+        }
+        if (name === PLN) {
+            inputElement.classList.remove('error');
+            setValue1(value);
+            axios.post('http://localhost:8080/api/convert-currency', {value, name})
                 .then(response => setValue2(response.data))
-                .catch(error => console.log(error));
-            setValue1ChangedByUser(false);
-        }
-    }, [value1, value1ChangedByUser]);
-
-    const handleValue1Change = (e) => {
-        const inputValue = e.target.value;
-        if (isNaN(inputValue) || inputValue < 0) {
-            e.target.classList.add('error');
-        } else {
-            setValue1(e.target.value);
-            setValue1ChangedByUser(true);
-            e.target.classList.remove('error');
-        }
-    }
-
-    useEffect(() => {
-        if (value2ChangedByUser) {
-            axios.post('http://localhost:8080/api/process-value', {value: value2, name: 'GBP'})
+                .catch(error => {
+                    console.log(error);
+                    alert('There was an error processing your request. Please try again later.');
+                });
+        } else if (name === GBP) {
+            inputElement.classList.remove('error');
+            setValue2(value);
+            axios.post('http://localhost:8080/api/convert-currency', {value, name})
                 .then(response => setValue1(response.data))
-                .catch(error => console.log(error));
-            setValue2ChangedByUser(false);
+                .catch(error => {
+                    console.log(error);
+                    alert('There was an error processing your request. Please try again later.');
+                });
         }
-    }, [value2, value2ChangedByUser]);
-
-    const handleValue2Change = (e) => {
-        const inputValue = e.target.value;
-        if (isNaN(inputValue) || inputValue < 0) {
-            e.target.classList.add('error');
-        } else {
-            setValue2(e.target.value);
-            setValue2ChangedByUser(true);
-            e.target.classList.remove('error');
-        }
-    }
+    };
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
@@ -66,23 +56,23 @@ function ConverterComponent() {
 
                 You send
                 <div className="input-group mb-3">
-                    <span className="input-group-text"><img src={ukFlag} alt="pl-flag"/></span>
+                    <span className="input-group-text"><img src={ukFlag} alt="uk-flag"/></span>
                     <input type="text" className="form-control"
-                           name="PLN" value={value1} onChange={handleValue1Change}
+                           name={PLN} value={value1} onChange={e => handleValueChange(e.target.value, e.target.name)}
                     />
-                    <span className="input-group-text">GBP</span>
+                    <span className="input-group-text">{GBP}</span>
                 </div>
 
                 They receive
                 <div className="input-group">
                     <span className="input-group-text"><img src={plFlag} alt="pl-flag"/></span>
                     <input type="text" className="form-control"
-                           name="GBP" value={value2} onChange={handleValue2Change}/>
-                    <span className="input-group-text">PLN</span>
+                           name={GBP} value={value2} onChange={e => handleValueChange(e.target.value, e.target.name)}
+                    />
+                    <span className="input-group-text">{PLN}</span>
                 </div>
 
                 <br/>
-
                 1 GBP = <b>{mid} PLN</b>
 
             </div>
