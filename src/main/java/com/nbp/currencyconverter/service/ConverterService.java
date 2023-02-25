@@ -43,14 +43,20 @@ public class ConverterService {
 
     }
 
-    public ResponseEntity<BigDecimal> processValue(@RequestBody UserValue userValue) {
+    public ResponseEntity<BigDecimal> convertCurrency(@RequestBody UserValue userValue) {
 
-        String value = userValue.getValue();
+        String inputValue = userValue.getValue();
         String rateName = userValue.getRateName();
 
         BigDecimal mid = getGBPMidValue();
 
-        BigDecimal valueFromInput = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal valueFromInput;
+
+        if (inputValue.isEmpty()) {
+            valueFromInput = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        } else {
+            valueFromInput = new BigDecimal(inputValue).setScale(2, RoundingMode.HALF_UP);
+        }
 
         BigDecimal result = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
 

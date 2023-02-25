@@ -25,8 +25,8 @@ public class ConverterController {
     }
 
     @PostMapping("/process-value")
-    public ResponseEntity<BigDecimal> processValue(@RequestBody UserValue userValue) {
-        return converterService.processValue(userValue);
+    public ResponseEntity<BigDecimal> convertCurrency(@RequestBody UserValue userValue) {
+        return converterService.convertCurrency(userValue);
     }
 
     @GetMapping("/mid-value")

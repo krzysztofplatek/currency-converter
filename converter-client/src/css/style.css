@@ -35,3 +35,11 @@ body {
     border-right: none;
     border-left: none;
 }
+
+/*.error {*/
+/*    border: 1px red solid;*/
+/*}*/
+
+.error:focus {
+    border: 1px red solid;
+}
