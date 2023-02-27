@@ -24,7 +24,9 @@ body {
 
 .form-control:focus {
     box-shadow: none;
-    border-color: rgba(0, 0, 0, 0.44);
+    border: rgba(0, 0, 0, 0.44);
+    border-top: 1px solid rgba(0, 0, 0, 0.44);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.44);
 }
 
 .input-group-text {
@@ -32,14 +34,11 @@ body {
 }
 
 .form-control {
-    border-right: none;
-    border-left: none;
+    border-right: 1px hidden;
+    border-left: 1px hidden;
 }
 
-/*.error {*/
-/*    border: 1px red solid;*/
-/*}*/
-
 .error:focus {
-    border: 1px red solid;
+    border-color: red;
+    background-color: rgba(255, 0, 0, 0.06);
 }
